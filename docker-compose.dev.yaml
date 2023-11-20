@@ -1,11 +1,35 @@
 version: "3.8"
 
 services:
+  postgres:
+    container_name: postgres
+    image: postgres:16.0
+    restart: always
+    volumes:
+      - ./vol/postgres:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=${PG_PASSWORD}
+      - POSTGRES_USER=${PG_USER}
+      - POSTGRES_DB=${PG_DATABASE}
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4:7.8
+    depends_on:
+      - postgres
+    ports:
+      - "127.0.0.1:${PGADMIN_PORT}:80"
+    volumes:
+      - ./vol/pgadmin:/var/lib/pgadmin
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_EMAIL}
+      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_PASSWORD}
   node-express:
     build:
       context: .
       dockerfile: Dockerfile
       target: DEVELOPMENT
+    depends_on:
+      - postgres
     volumes:
       - ./:/usr/src/app
       - /usr/src/app/node_modules

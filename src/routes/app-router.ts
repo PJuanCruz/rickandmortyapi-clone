@@ -1,24 +1,16 @@
-import express, { Express, Request, Response } from 'express';
+import express, { Router } from 'express';
 
-import CharacterRouter from './character';
-import ExpressRouter from './express-router';
+class AppRouter<T> {
+  public router: Router;
+  protected controller: T;
 
-class AppRouter extends ExpressRouter {
-  characterRouter: ExpressRouter;
-
-  constructor() {
-    super();
-    this.characterRouter = new CharacterRouter();
-    this.init();
+  constructor(TController: { new (): T }) {
+    this.router = express.Router();
+    this.controller = new TController();
+    this.initRoutes();
   }
 
-  private init(): void {
-    this.router.head('/', (req: Request, res: Response) => {
-      return res.sendStatus(200);
-    });
-
-    this.router.use('/character', this.characterRouter.getRouter());
-  }
+  initRoutes() {}
 }
 
 export default AppRouter;

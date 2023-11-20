@@ -1,22 +1,23 @@
-import express, { Express, Request, Response } from 'express';
-import { ENV } from '../config';
-import AppRouter from '../routes/app-router';
+import express, { Express } from 'express';
+import { srvConfig } from '../config/config';
+import CharacterRouter from '../routes/character-router';
+import HttpResponse from '../utils/http-response';
 
 class AppServer {
   private app: Express;
-  private router: AppRouter;
   readonly PORT: string;
   readonly PREFIX: string;
   readonly DEV_MODE: boolean;
 
   constructor() {
     this.app = express();
-    this.router = new AppRouter();
-    this.PORT = process.env.PORT!;
-    this.PREFIX = process.env.PREFIX!;
-    this.DEV_MODE = ENV === 'development';
+    this.PORT = srvConfig.PORT;
+    this.PREFIX = srvConfig.PREFIX;
+    this.DEV_MODE = srvConfig.MODE === 'development';
+
     this.configMiddlewares();
     this.configRoutes();
+    this.configEndwares();
   }
 
   private configMiddlewares(): void {
@@ -26,7 +27,12 @@ class AppServer {
   }
 
   private configRoutes(): void {
-    this.app.use(`/${this.PREFIX}`, this.router.getRouter());
+    this.app.use(`/${this.PREFIX}`, [new CharacterRouter().router]); // TODO
+  }
+
+  private configEndwares(): void {
+    this.app.use(HttpResponse.NotFound);
+    this.app.use(HttpResponse.internalServerError);
   }
 
   start(): void {

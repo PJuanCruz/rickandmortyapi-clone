@@ -1,8 +1,9 @@
 .vscode
 dist
 node_modules
-.env.development
+vol
 .dockerignore
+.env.development
 .git
 .gitignore
 Dockerfile
