@@ -1,0 +1,16 @@
+version: "3.8"
+
+services:
+  node-express:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: DEVELOPMENT
+    volumes:
+      - ./:/usr/src/app
+      - /usr/src/app/node_modules
+    env_file:
+      - .env.development
+    ports:
+      - "127.0.0.1:${PORT}:${PORT}"
+    command: npm run start:dev

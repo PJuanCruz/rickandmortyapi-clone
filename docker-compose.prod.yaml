@@ -1,0 +1,10 @@
+version: "3.8"
+
+services:
+  node-express:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: PRODUCTION
+    ports:
+      - "4000:4000"
