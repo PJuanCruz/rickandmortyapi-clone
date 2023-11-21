@@ -1,0 +1,10 @@
+ALTER TABLE "characters_episodes" DROP CONSTRAINT "characters_episodes_character_id_fkey";
+ALTER TABLE "characters_episodes" DROP CONSTRAINT "characters_episodes_episode_id_fkey";
+ALTER TABLE "characters" DROP CONSTRAINT "characters_origin_fkey";
+ALTER TABLE "characters" DROP CONSTRAINT "characters_location_fkey";
+DROP TABLE "characters_episodes";
+DROP TABLE "characters";
+DROP TABLE "locations";
+DROP TABLE "episodes";
+DROP TYPE "characters_status";
+DROP TYPE "characters_gender";

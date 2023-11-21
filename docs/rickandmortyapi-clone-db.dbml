@@ -1,0 +1,60 @@
+// Use DBML to define your database structure
+// Docs: https://dbml.dbdiagram.io/docs
+
+Project rickandmortyapi_clone_db {
+  database_type: 'PostgreSQL'
+}
+
+Table characters {
+  id integer [primary key]
+  name varchar(255) [unique, not null]
+  status characters_status
+  species varchar(255)
+  type varchar(255)
+  gender characters_gender
+  origin integer [ref: > locations.id]
+  location integer [ref: > locations.id]
+  image varchar(2048)
+  // episode
+  url varchar(2048)
+  created timestamp
+}
+
+Table locations {
+  id integer [primary key]
+  name varchar(255) [unique, not null]
+  type varchar(255)
+  dimension varchar(255)
+  // residents
+  url varchar(2048)
+  created timestamp
+}
+
+Table episodes {
+  id integer [primary key]
+  name varchar(255) [unique, not null]
+  air_date varchar(255)
+  episode varchar(255)
+  // characters
+  url varchar(2048)
+  created timestamp
+}
+
+Table characters_episodes {
+  character_id integer [ref: > characters.id]
+  episode_id integer [ref: > episodes.id]
+  id integer [primary key, increment]
+}
+
+enum characters_status {
+  Alive
+  Dead
+  unknown
+}
+
+enum characters_gender {
+  Female
+  Male
+  Genderless
+  unknown
+}

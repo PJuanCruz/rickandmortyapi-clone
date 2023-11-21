@@ -1,5 +1,6 @@
 .vscode
 dist
+docs
 node_modules
 vol
 .dockerignore
@@ -9,3 +10,4 @@ vol
 Dockerfile
 package-lock.json
 README.md
+rickandmortyapi-clone-db-dbml.txt
