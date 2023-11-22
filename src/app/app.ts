@@ -1,4 +1,4 @@
-import AppDatabase from '../database/app-database';
+import AppDatabase, { ClientType } from '../database/app-database';
 import AppServer from '../server/app-server';
 
 class App {
@@ -11,7 +11,7 @@ class App {
   }
 
   public async bootstrap(): Promise<void> {
-    await this.database.connect();
+    await this.database.connect(ClientType.Pool);
     this.server.start();
   }
 }
